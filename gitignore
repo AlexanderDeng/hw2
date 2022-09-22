@@ -1,0 +1,7 @@
+.gitignore
+.book.o 
+*.clang-format
+*.clang-tidy
+.book.o
+.clothing.o
+.product_parser.o

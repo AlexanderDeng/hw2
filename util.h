@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include <vector> 
+#include <algorithm> 
 
 
 /** Complete the setIntersection and setUnion functions below
@@ -13,20 +15,33 @@
 template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
-
-
-
-
-
+  std::set<T> intersect; 
+  typename std::set<T>::iterator is1; 
+  for (is1 = s1.begin(); is1 != s1.end(); ++is1)
+  {
+    if (s2.find(*is1))
+    {
+      intersect.insert(*is1); 
+    }
+  }
+  
+  return intersect; 
 }
+
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
-
-
-
-
-
+  std::set<T> u;
+  u = s2;
+  typename std::set<T>::iterator is1;
+  for(is1 = s1.begin(); is1 != s1.end(); ++is1)
+  {
+    if (!s2.find(*is1))
+    {
+      u.insert(*is1);
+    }
+  }
+  return u; 
 }
 
 /***********************************************/
