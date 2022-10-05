@@ -12,6 +12,11 @@ class Book : public Product
     std::string displayString() const;
     void dump(std::ostream& os) const; 
     bool isMatch(std::vector<std::string>& searchTerms) const;
+    void viewCart(std::string user); 
+    void buyCart(std::string user); 
+    
+    
+
   private: 
     std::string isbn_;
     std::string author_;  

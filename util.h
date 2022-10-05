@@ -19,7 +19,7 @@ std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
   typename std::set<T>::iterator is1; 
   for (is1 = s1.begin(); is1 != s1.end(); ++is1)
   {
-    if (s2.find(*is1))
+    if (s2.find(*is1) != s2.end())
     {
       intersect.insert(*is1); 
     }
@@ -36,7 +36,7 @@ std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
   typename std::set<T>::iterator is1;
   for(is1 = s1.begin(); is1 != s1.end(); ++is1)
   {
-    if (!s2.find(*is1))
+    if (s2.find(*is1) == s2.end())
     {
       u.insert(*is1);
     }

@@ -8,14 +8,20 @@
 #include <map> 
 using namespace std; 
 
-set<string> Book::keywords()  
+set<string> Book::keywords() const 
 {
   set<string> words; 
-  words = parseStringToWords(name_);
+  set<string> author;
+  set<string>::iterator authorIt; 
+  words = parseStringToWords(name_); 
+  author = parseStringToWords(author_); 
+  for (authorIt = author.begin(); authorIt != author.end(); ++authorIt)
+  {
+    words.insert(*authorIt); 
+  }
   words.insert(to_string(price_));
   words.insert(to_string(qty_)); 
   words.insert(isbn_);
-  words.insert(author_);
   return words; 
 }
 
@@ -31,7 +37,7 @@ void Book::dump(ostream& os) const
   os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n" << isbn_ << "\n" << author_ << endl;
 }
 
-Book::Book(string category, string name, double price, int qty, string isbn, string author) : Product(category_, name_, price_, qty_)
+Book::Book(const string category, const string name, double price, int qty, string isbn, string author) : Product(category, name, price, qty)
 {
   //category_ = category; 
   //name_ = name; 
@@ -43,5 +49,6 @@ Book::Book(string category, string name, double price, int qty, string isbn, str
 
 bool Book::isMatch(std::vector<std::string>& searchTerms) const//implement later
 {
+  vector<string>::iterator i; 
   return true; 
 }

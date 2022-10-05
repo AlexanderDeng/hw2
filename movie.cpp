@@ -9,15 +9,21 @@
 
 using namespace std; 
 
-set<string> Movie::keywords()
+set<string> Movie::keywords() const
 {
   set<string> words; 
+  set<string> genre;
+  set<string>::iterator genreIt; 
   words = parseStringToWords(name_); 
+  genre = parseStringToWords(genre_); 
+  for (genreIt = genre.begin(); genreIt != genre.end(); ++genreIt)
+  {
+    words.insert(*genreIt); 
+  }
   words.insert(to_string(price_));
   words.insert(to_string(qty_)); 
-  words.insert(genre_);
   words.insert(rating_);
-  return words;
+  return words; 
 }
 
 string Movie::displayString() const
@@ -32,7 +38,7 @@ void Movie::dump(ostream& os) const
   os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n" << genre_ << "\n" << rating_ << endl;
 }
 
-Movie::Movie(string category, string name, double price, int qty, string genre, string rating) : Product(category_, name_, price_, qty_)
+Movie::Movie(const string category, const string name, double price, int qty, string genre, string rating) : Product(category, name, price, qty)
 {
   //category_ = category; 
   //name_ = name; 
