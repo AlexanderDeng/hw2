@@ -1,4 +1,5 @@
 #include <iostream> 
+#include <iomanip> 
 #include <sstream> 
 #include "book.h"
 #include "util.h"
@@ -28,7 +29,7 @@ set<string> Book::keywords() const
 string Book::displayString() const
 {
   stringstream ss; 
-  ss << name_ << " " <<  price_ << " " << qty_ << " " << isbn_ << " " << author_ << endl; 
+  ss << name_ << "\n" << "Author: " << author_ <<" "<< "ISBN: " << isbn_ << "\n" << setprecision(2) << fixed << price_ << " " << qty_ << " " << "left." << "\n" << endl; 
   return ss.str(); 
 }
 

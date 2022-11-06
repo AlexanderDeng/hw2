@@ -109,19 +109,19 @@ void MyDataStore::dump(std::ostream& ofile)
 {
   vector<Product*>::iterator j; 
   map<string, User*>::iterator k;
-  ofile << "<Products>" << endl; 
+  ofile << "<products>" << endl; 
   for (j = productSet.begin(); j != productSet.end(); j++) //iterates through products and dumps them 
   {
     (**j).dump(ofile); 
   }
-  ofile << "</Product>" << endl; 
+  ofile << "</products>" << endl; 
   
-  ofile << "<Users>" << endl; 
+  ofile << "<users>" << endl; 
   for (k = userMap.begin(); k != userMap.end(); ++k) //iterates through userMap and dumps to the user object pointer
   {
     k->second->dump(ofile);
   }
-  ofile << "</Users>" << endl; 
+  ofile << "</users>" << endl; 
 }
 
 void MyDataStore::addCart(string user, Product* p)
@@ -139,29 +139,24 @@ void MyDataStore::addCart(string user, Product* p)
   }
   if (!found)
   {
-    cout << "Invalid Username!" << endl; 
+    cout << "Invalid request" << endl; 
   }
 }
 
 void MyDataStore::viewCart(std::string user)
 {
-  bool found = false; 
-  map<string, vector<Product*>>::iterator i; 
-  for (i = cartMap.begin(); i != cartMap.end(); ++i) //iterate thru map of users and their carts
+  if (cartMap.find(user) != cartMap.end()) //if user is found 
   {
-    if (i->first == user) //if user is found
+    int x = 1; //to list the item numbers 
+    for (vector<Product*>::iterator it = cartMap[user].begin(); it != cartMap[user].end(); ++it) //iterate thru user's cart 
     {
-      found = true; 
-      vector<Product*>::iterator j; //declare new iterator 
-      for(j = i->second.begin(); j != i->second.end(); ++j) //iterate through their cart
-      {
-        cout << (**j).displayString() << endl; //display each product
-      }
+      cout << "Item " << x++ << endl //cout Item x and then the item.displaystring shit
+           << (*it)->displayString() << endl;
     }
   }
-  if (!found) //if user not found
+  else
   {
-    cout << "User not found! "; 
+    cout << "Invalid username" << endl; 
   }
 }
 
@@ -170,28 +165,21 @@ void MyDataStore::buyCart(std::string user)
   map<string, vector<Product*>>::iterator cartMapIt = cartMap.find(user); 
 	if (cartMapIt == cartMap.end()) //checks if user exists 
   {
-		cout << "Invalid: User not found!" << endl;
+		cout << "Invalid username" << endl;
 		return;
 	}
   else 
   {
-    vector<Product*> userCart = cartMap.find(user)->second; //create copy of users cart 
-    User* referenceUser = userMap.find(user)->second; //get reference to actual user 
-    vector<Product*>::iterator cartIt = userCart.begin(); //iterator for user's cart 
-    for (unsigned int i = 0; i < userCart.size(); i++) //loop through all elements of the cart vector 
+    for (vector<Product*>::iterator it = cartMap[user].begin(); it != cartMap[user].end();) //iterate thru user's cart 
     {
-      if ((*cartIt)->getPrice() <= referenceUser->getBalance() && (*cartIt)->getQty() > 0) //if price is lower than bal and in stock 
+      if ((*it)->getQty() >= 1 && userMap[user]->getBalance() >= (*it)->getPrice()) //if enough in stock and enough in balance 
       {
-        userCart.erase(cartIt); //removes item from users cart 
-        double bill = (*cartIt)->getPrice(); //calculates amount 
-        referenceUser->deductAmount(bill); //deducts amount and buys 
-        (*cartIt)->subtractQty(1); //removes 1 from stock 
+        (*it)->subtractQty(1); //reduce quantity 
+        userMap[user]->deductAmount((*it)->getPrice()); //deduct price from user's balance 
+        cartMap[user].erase(it); //remove pointer to item from their cart if bought successfully 
       }
-      if ((referenceUser->getBalance() < (*cartIt)->getPrice()) || (*cartIt)->getQty() == 0 ) //if out of stock now or not enough money
-      {
-			  ++cartIt; //increment it to try and buy the next item. 
-      }
-		}
-    cartMap.find(user)->second = userCart; //updates cart 
-  }	
+      else
+        ++it; //if too broke to buy the current item advances pointer to see if you can buy the next 
+    }
+  }
 }

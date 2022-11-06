@@ -1,4 +1,5 @@
 #include <iostream> 
+#include <iomanip> 
 #include <sstream> 
 #include "movie.h"
 #include "util.h"
@@ -29,7 +30,7 @@ set<string> Movie::keywords() const
 string Movie::displayString() const
 {
   stringstream ss; 
-  ss << name_ << " " <<  price_ << " " << qty_ << " " << genre_ << " " << rating_ << endl; 
+  ss << name_ << "\n" << "Genre: " << genre_ <<" "<< "Rating: " << rating_ << "\n" << setprecision(2) << fixed << price_ << " " << qty_ << " " << "left." << "\n" << endl; 
   return ss.str(); 
 }
 

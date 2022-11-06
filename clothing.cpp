@@ -1,4 +1,5 @@
 #include <iostream> 
+#include <iomanip> 
 #include <sstream> 
 #include "clothing.h"
 #include "util.h"
@@ -28,7 +29,7 @@ set<string> Clothing::keywords() const
 string Clothing::displayString() const
 {
   stringstream ss; 
-  ss << name_ << " " << price_ << " " << qty_ << " " << size_ << " " << brand_ << endl; 
+  ss << name_ << "\n" << "Size: " << size_ <<" "<< "Brand: " << brand_ << "\n" << setprecision(2) << fixed << price_ << " " << qty_ << " " << "left." << "\n" << endl; 
   return ss.str(); 
 }
 

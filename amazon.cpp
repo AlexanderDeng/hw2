@@ -98,7 +98,6 @@ int main(int argc, char* argv[])
                 }
                 done = true;
             }
-            
             else if (cmd == "ADD")
             { 
                 string username; 
@@ -108,7 +107,6 @@ int main(int argc, char* argv[])
       	        Product* toAdd = hits[hitNumber - 1]; 
       	        ds.addCart(username, toAdd); 
             }
-
             else if (cmd == "VIEWCART")
             {
               string user;
@@ -121,13 +119,11 @@ int main(int argc, char* argv[])
               ss >> user; 
               ds.buyCart(user); 
             }
-
             else 
             {
                 cout << "Unknown command" << endl;
             }
         }
-
     }
     return 0;
 }
